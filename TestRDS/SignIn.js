@@ -1,7 +1,7 @@
 let AWS = require('aws-sdk');
 let connectionManager = require('./ConnectionManager');
-let SL = require('@slappforge/slappforge-sdk');
-const rds = new SL.AWS.RDS(connectionManager);
+let SL_AWS = require('slappforge-sdk-aws');
+const rds = new SL_AWS.RDS(connectionManager);
 exports.handler = function (event, context, callback) {
 
     let successfullyLoggedIn = false;
@@ -11,7 +11,7 @@ exports.handler = function (event, context, callback) {
 	// A new connection will be created if it's not present as the third param 
 	// You must always end the DB connection after it's used
 	rds.query({
-		instanceIdentifier: 'KTestDB',
+		instanceIdentifier: 'KTestInstance',
 		query: 'SELECT * FROM users WHERE Email = ? AND Password = ?',
 		inserts: inserts
 	}, function (error, results, connection) {

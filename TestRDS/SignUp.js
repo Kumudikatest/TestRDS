@@ -4,40 +4,26 @@ let SL_AWS = require('slappforge-sdk-aws');
 const rds = new SL_AWS.RDS(connectionManager);
 exports.handler = function (event, context, callback) {
 
+	let response;
+	let inserts = [event.email, event.password, event.lastName, event.firstName, event.address];
+
 	// You can pass the existing connection to this function.
 	// A new connection will be created if it's not present as the third param 
 	// You must always end/destroy the DB connection after it's used
-
-	let response;
-	let inserts = [event.email, event.password, event.lastName, event.firstName, event.address];
-	
 	rds.query({
-		instanceIdentifier: 'KTestDB',
-		query: 'INSERT INTO users (Email, Password, LastName, FirstName, Address)',
+		instanceIdentifier: 'KTestInstance',
+		query: 'INSERT INTO users (Email, Password, LastName, FirstName, Address) VALUES (?, ?, ?, ?, ?);',
 		inserts: inserts
 	}, function (error, results, connection) {
 		if (error) {
-			console.log("Error occurred");
+			response = error;
 			throw error;
 		} else {
-			console.log("Success")
+			response = "Successfully added a new user with email";
 			console.log(results);
 		}
-
 		connection.end();
+		callback(null, response);
 	});
 
-	callback(null, 'Successfully executed');
 }
-
-
-
-
-
-
-
-
-
-
-
-
