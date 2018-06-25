@@ -10,7 +10,7 @@ exports.handler = function (event, context, callback) {
 	// You can pass the existing connection to this function.
 	// A new connection will be created if it's not present as the third param 
 	// You must always end/destroy the DB connection after it's used
-	/*rds.query({
+	rds.query({
 		instanceIdentifier: 'KTestInstance',
 		query: 'INSERT INTO users (Email, Password, LastName, FirstName, Address) VALUES (?, ?, ?, ?, ?);',
 		inserts: inserts
@@ -24,6 +24,6 @@ exports.handler = function (event, context, callback) {
 		}
 		connection.end();
 		callback(null, response);
-	});*/
+	});
 
 }
